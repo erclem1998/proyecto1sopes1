@@ -1,11 +1,18 @@
 import React from 'react';
 import './RunningProccess.css';
 import { Table } from 'react-bootstrap';
+import axios from 'axios';
 export default class RunningProccess extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { Procesos: [] };
+    axios.get(`http://54.144.197.130:8080/runningprocess`)
+      .then(res => {
+        console.log(res.data)
+
+        this.setState({ Procesos: res.data });
+      })
+
   }
 
   render() {

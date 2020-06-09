@@ -169,6 +169,7 @@ func main() {
 	router.HandleFunc("/ram", getRam).Methods("GET")
 	router.HandleFunc("/total", getTotalRam).Methods("GET")
 	router.HandleFunc("/actualram", getConsumeRam).Methods("GET")
+	router.HandleFunc("/runningprocess", getRunningProcess).Methods("GET")
 	// cors.Default() setup the middleware with default options being
     // all origins accepted with simple methods (GET, POST). See
     // documentation below for more options.
