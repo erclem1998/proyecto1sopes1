@@ -22,7 +22,7 @@ static int write_file(struct seq_file * archivo, void *v){
     seq_printf(archivo,"\n");
     seq_printf(archivo,"      -------------------------------------\n");
     seq_printf(archivo,"      |   PROYECTO 1 - MODULO DE MEMORIA  |\n");
-    seq_printf(archivo,"      | LABORATORIO SISTEMAS OPERATIVOS 1 | 1\n");
+    seq_printf(archivo,"      | LABORATORIO SISTEMAS OPERATIVOS 1 |\n");
     seq_printf(archivo,"      |           JUNIO 2020              |\n");
     seq_printf(archivo,"      -------------------------------------\n");
     seq_printf(archivo,"      CESAR JAVIER SOLARES OROZCO - 201313819\n");
