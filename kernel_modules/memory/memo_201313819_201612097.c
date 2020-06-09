@@ -20,11 +20,13 @@ static int write_file(struct seq_file * archivo, void *v){
     long memoriatotal=(inf.totalram*4);
     long memorialibre=(inf.freeram*4);
     seq_printf(archivo,"\n");
-    seq_printf(archivo,"LABORATORIO SISTEMAS OPERATIVOS 1\n");
-    seq_printf(archivo,"JUNIO 2020\n");
-    seq_printf(archivo,"CESAR JAVIER SOLARES OROZCO - 201313819\n");
-    seq_printf(archivo,"ERICK ALEXANDER LEMUS MORALES - 201612097\n");
-    seq_printf(archivo,"PROYECTO 1 - MODULO DE MEMORIA\n");
+    seq_printf(archivo,"      -------------------------------------\n");
+    seq_printf(archivo,"      |   PROYECTO 1 - MODULO DE MEMORIA  |\n");
+    seq_printf(archivo,"      | LABORATORIO SISTEMAS OPERATIVOS 1 | 1\n");
+    seq_printf(archivo,"      |           JUNIO 2020              |\n");
+    seq_printf(archivo,"      -------------------------------------\n");
+    seq_printf(archivo,"      CESAR JAVIER SOLARES OROZCO - 201313819\n");
+    seq_printf(archivo,"     ERICK ALEXANDER LEMUS MORALES - 201612097\n");
     seq_printf(archivo,"\n");
     seq_printf(archivo,"-----------------------------------------------\n");
     seq_printf(archivo,"| TOTAL MEMORIA  | %8lu kb - %8lu mb |\n", memoriatotal, memoriatotal/1024);
