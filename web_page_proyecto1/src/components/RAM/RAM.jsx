@@ -47,7 +47,7 @@ export default class RAM extends React.Component {
   }
   componentDidMount() {
     this.interval = setInterval(() => {
-      axios.get(`http://54.144.197.130:8080/ram`)
+      axios.get(`http://54.144.197.130:8080/actualram`)
         .then(res => {
           let resp = res.data;
 
@@ -68,7 +68,7 @@ export default class RAM extends React.Component {
             labels: labels1,
             datasets: [
               {
-                label: 'Total de RAM utilizada',
+                label: 'Total de RAM utilizada (MB)',
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',
@@ -100,6 +100,12 @@ export default class RAM extends React.Component {
               console.log(res.data)
 
               this.setState({ RAMConsumida: res.data });
+            })
+          axios.get(`http://54.144.197.130:8080/ram`)
+            .then(res => {
+              console.log(res.data)
+
+              this.setState({ percentage_ram: res.data });
             })
         })
     }, 1000)
@@ -149,6 +155,20 @@ export default class RAM extends React.Component {
                 </Col>
                 <Col>
                   {this.state.RAMConsumida}MB
+                </Col>
+              </Row>
+              <Row>
+                <Col md={2}>
+                </Col>
+                <Col>
+                  % de Consumo de RAM
+                </Col>
+              </Row>
+              <Row>
+                <Col md={3}>
+                </Col>
+                <Col>
+                  %{this.state.percentage_ram}
                 </Col>
               </Row>
             </Col>
