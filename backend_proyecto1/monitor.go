@@ -159,10 +159,10 @@ func getRunningProcess(w http.ResponseWriter, r *http.Request){
 	
 	// for {key}, {value} := range {list}
 	for _, process := range s {
-//		fmt.Println(process,"\n")
-		stat := strings.Fields(s[7])
+		//		fmt.Println(process,"\n")
+		Sstat := strings.Fields(s[7])
+		stat : = Sstat[1]
 		fmt.Println(stat,"\n")
-
 	}
 }
 
