@@ -26,13 +26,13 @@ static int write_file(struct seq_file * archivo, void *v){
     seq_printf(archivo,"ERICK ALEXANDER LEMUS MORALES - 201612097\n");
     seq_printf(archivo,"PROYECTO 1 - MODULO DE MEMORIA\n");
     seq_printf(archivo,"\n");
-    seq_printf(archivo,"TOTAL MEMORIA : %8LU kb - %8LU mb \n", memoriatotal, memoriatotal/1024);
+    seq_printf(archivo,"TOTAL MEMORIA : %8lu kb - %8lu mb \n", memoriatotal, memoriatotal/1024);
     seq_printf(archivo,"\n");
     seq_printf(archivo,"\n");
     return 0;
 }
 
-static int abrir(struct *inode, struct file *file){
+static int abrir(struct inode  *inode, struct file *file){
     return single_open(file,write_file, NULL);
 }
 
@@ -44,7 +44,7 @@ static struct file_operations ops =
 };
 
 static int iniciar(void){
-    proc_create("prueba memoria",0, NULL,&ops);
+    proc_create("pruebamemoria",0, NULL,&ops);
     printk(KERN_INFO "carnets\n");
     return 0;
 }
