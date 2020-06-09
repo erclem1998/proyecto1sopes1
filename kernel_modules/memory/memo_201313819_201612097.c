@@ -29,7 +29,7 @@ static int write_file(struct seq_file * archivo, void *v){
     seq_printf(archivo,"--------------------------------------\n");
     seq_printf(archivo,"| TOTAL MEMORIA  | %8lu kb - %8lu mb |\n", memoriatotal, memoriatotal/1024);
     seq_printf(archivo,"| MEMORIA LIBRE  | %8lu KB - %8lu MB |\n", memorialibre, memorialibre/1024);
-    seq_printf(archivo,"| MEMORIA EN USO | %i %%%             |\n", (memorialibre * 100)/memoriatotal);
+    seq_printf(archivo,"| MEMORIA EN USO | %i %%                       |\n", (memorialibre * 100)/memoriatotal);
     seq_printf(archivo,"--------------------------------------\n");
     seq_printf(archivo,"\n");
     return 0;
