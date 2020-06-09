@@ -112,7 +112,7 @@ func getConsumeRam(w http.ResponseWriter, r *http.Request) {
 
 
 func getCPU(w http.ResponseWriter, r *http.Request) {
-    cmd := exec.Command("sh", "-c", "ps aux | grep -e STAT -e R")
+    cmd := exec.Command("sh", "-c", "ps aux ")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
@@ -133,6 +133,7 @@ func getCPU(w http.ResponseWriter, r *http.Request) {
     		fmt.Println(err)
 		}
 		
+
 		cpuUsado += valor 
 		//fmt.Println("valor ->" + s[i] + "<-" + strconv.Itoa(i))
 		
@@ -158,7 +159,10 @@ func getRunningProcess(w http.ResponseWriter, r *http.Request){
 	
 	// for {key}, {value} := range {list}
 	for _, process := range s {
-		fmt.Println(process,"\n")
+//		fmt.Println(process,"\n")
+		stat := strings.Fields(s[7])
+		fmt.Println(stat,"\n")
+
 	}
 }
 
