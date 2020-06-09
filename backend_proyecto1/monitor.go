@@ -143,7 +143,7 @@ func getCPU(w http.ResponseWriter, r *http.Request) {
 }
 
 func getRunningProcess(w http.ResponseWriter, r *http.Request){
-	cmd := exec.Command("sh", "-c", "ps aux | grep -e USER -e PID -e %MEM -e COMMAND -e STAT")
+	cmd := exec.Command("sh", "-c", "ps aux | grep -e STAT -e R")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
