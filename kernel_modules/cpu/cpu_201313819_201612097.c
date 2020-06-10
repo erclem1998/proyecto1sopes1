@@ -14,7 +14,7 @@
 
 void recorrerHijos(struct seq_file *sf, struct task_struct *ts, int contador)
 {
-    struct task_struct *root = current;
+    struct task_struct *root,*task = current;
     while (root->pid != 1)
     {
         root = root->parent;
