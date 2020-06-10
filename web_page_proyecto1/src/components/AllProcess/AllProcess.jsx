@@ -6,7 +6,7 @@ export default class AllProcess extends React.Component {
   constructor(props) {
     super(props);
     this.state = { Procesos: [] };
-    axios.get(`http://54.144.197.130:8080/allprocess`)
+    axios.get(`http://18.204.15.140:8080/allprocess`)
       .then(res => {
         this.setState({ Procesos: res.data.Output });
       })
@@ -14,7 +14,7 @@ export default class AllProcess extends React.Component {
   }
   componentDidMount() {
     this.interval = setInterval(() => {
-      axios.get(`http://54.144.197.130:8080/allprocess`)
+      axios.get(`http://18.204.15.140:8080/allprocess`)
         .then(res => {
           this.setState({ Procesos: res.data.Output });
         })
@@ -26,7 +26,7 @@ export default class AllProcess extends React.Component {
   }
 
   killprocess(e) {
-    axios.post(`http://54.144.197.130:8080/killprocess`, e.target.value)
+    axios.post(`http://18.204.15.140:8080/killprocess`, e.target.value)
       .then(res => {
         console.log(res.data);
       })

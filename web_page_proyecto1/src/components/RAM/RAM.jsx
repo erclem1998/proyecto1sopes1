@@ -37,7 +37,7 @@ export default class RAM extends React.Component {
     };
     //TOTAL DE RAM
 
-    axios.get(`http://54.144.197.130:8080/total`)
+    axios.get(`http://18.204.15.140:8080/total`)
       .then(res => {
         console.log(res.data)
 
@@ -47,7 +47,7 @@ export default class RAM extends React.Component {
   }
   componentDidMount() {
     this.interval = setInterval(() => {
-      axios.get(`http://54.144.197.130:8080/actualram`)
+      axios.get(`http://18.204.15.140:8080/actualram`)
         .then(res => {
           let resp = res.data;
 
@@ -95,13 +95,13 @@ export default class RAM extends React.Component {
           let lineChart = this.reference.chartInstance
           lineChart.update();
 
-          axios.get(`http://54.144.197.130:8080/actualram`)
+          axios.get(`http://18.204.15.140:8080/actualram`)
             .then(res => {
               console.log(res.data)
 
               this.setState({ RAMConsumida: res.data });
             })
-          axios.get(`http://54.144.197.130:8080/ram`)
+          axios.get(`http://18.204.15.140:8080/ram`)
             .then(res => {
               console.log(res.data)
 

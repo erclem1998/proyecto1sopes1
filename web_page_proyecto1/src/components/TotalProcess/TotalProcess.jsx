@@ -6,7 +6,7 @@ export default class TotalProcess extends React.Component {
   constructor(props) {
     super(props);
     this.state = { Procesos: 0 };
-    axios.get(`http://54.144.197.130:8080/totalprocess`)
+    axios.get(`http://18.204.15.140:8080/totalprocess`)
       .then(res => {
 
         this.setState({ Procesos: res.data });
@@ -16,7 +16,7 @@ export default class TotalProcess extends React.Component {
   }
   componentDidMount() {
     this.interval = setInterval(() => {
-      axios.get(`http://54.144.197.130:8080/totalprocess`)
+      axios.get(`http://18.204.15.140:8080/totalprocess`)
         .then(res => {
 
           this.setState({ Procesos: res.data });
