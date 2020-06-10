@@ -1,15 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './TotalProcess.css';
+import { Badge } from 'react-bootstrap';
+import axios from 'axios';
+export default class TotalProcess extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { Procesos: 0 };
+    axios.get(`http://54.144.197.130:8080/totalprocess`)
+      .then(res => {
 
-const TotalProcess = () => (
-  <div className="TotalProcess">
-    TotalProcess Component
-  </div>
-);
+        this.setState({ Procesos: res.data });
 
-TotalProcess.propTypes = {};
+      })
 
-TotalProcess.defaultProps = {};
+  }
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      axios.get(`http://54.144.197.130:8080/totalprocess`)
+        .then(res => {
 
-export default TotalProcess;
+          this.setState({ Procesos: res.data });
+
+        })
+    }, 15000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  render() {
+    return (
+      <Badge variant="secondary">{this.state.Procesos}</Badge>
+
+    );
+  }
+}
+
