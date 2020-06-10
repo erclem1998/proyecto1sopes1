@@ -1,45 +1,38 @@
 import React from 'react';
 import './SuspendProcess.css';
-import { Table } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
+import axios from 'axios';
 export default class SuspendProcess extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { Procesos: 0 };
+    axios.get(`http://54.144.197.130:8080/suspendprocess`)
+      .then(res => {
 
-    this.state = { Procesos: [] };
+        this.setState({ Procesos: res.data });
+
+      })
+
+  }
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      axios.get(`http://54.144.197.130:8080/suspendprocess`)
+        .then(res => {
+
+          this.setState({ Procesos: res.data });
+
+        })
+    }, 15000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
     return (
-      <div>
-        <Table responsive>
-          <thead>
-            <tr>
-              <th>PID</th>
-              <th>Command</th>
-              <th>Username</th>
-              <th>State</th>
-              <th>% RAM</th>
+      <Badge variant="secondary">{this.state.Procesos}</Badge>
 
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.Procesos.map((process) => {
-                return (
-                  <tr>
-                    <td>{process.PID}</td>
-                    <td>{process.Username}</td>
-                    <td>{process.Command}</td>
-                    <td>{process.State}</td>
-                    <td>{process.Ram}</td>
-
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </Table>
-      </div>
     );
   }
 }
