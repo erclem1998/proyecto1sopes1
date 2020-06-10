@@ -31,7 +31,7 @@ void procs_info_print(void)
     size_t process_counter = 0;
     for_each_process(task_list)
     {
-        pr_info("Nombre: %s PID: %d  Estado: %d\n", task_list->comm, task_list->pid, task_list->state);
+        pr_info("Nombre: %s PID: %d  Estado: %d  PID Padre: %d\n", task_list->comm, task_list->pid, task_list->state, task_list->real_parent->pid);
         ++process_counter;
     }
     printk(KERN_INFO "== Number of process: %zu\n", process_counter);
