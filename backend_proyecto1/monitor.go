@@ -82,13 +82,15 @@ func getConsumeRam(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+    
     //fmt.Println("Ram obtenida correctamente")
     output := string(out[:])
     //fmt.Fprintf(w, output)
 
     s := strings.Split(output, "\n")
-    
+    //MemTotal
+	sMemTotal := strings.Fields(s[0])
+	MemTotal := sMemTotal[1]
 	//MemAvailable
 	//fmt.Println(s[2])
 	//MemFree
@@ -96,23 +98,27 @@ func getConsumeRam(w http.ResponseWriter, r *http.Request) {
 	MemFree := sMemFree[1]
 	//fmt.Println(s[1])
 
+	i1, err := strconv.Atoi(MemTotal)
+	if err != nil {
+		log.Fatal(err)
+	}
 	i2, err := strconv.Atoi(MemFree)
 	if err != nil {
 		log.Fatal(err)
 	}
 	
-	fmt.Fprintf(w, strconv.Itoa(i2/1024))
+	fmt.Fprintf(w, strconv.Itoa((i1-i2)/1024))
 }
 
 
 func getCPU(w http.ResponseWriter, r *http.Request) {
-    cmd := exec.Command("sh", "-c", "ps -eo pcpu | sort -k 1 -r | head -50")
+    cmd := exec.Command("sh", "-c", "ps aux | grep -e STAT -e R")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-    fmt.Println("CPU obtenido correctamente")
+    fmt.Println("Procesos obtenidos correctamente")
     
     output := string(out[:])
 	//fmt.Fprintf(w, output)
@@ -134,6 +140,26 @@ func getCPU(w http.ResponseWriter, r *http.Request) {
 
     
     fmt.Fprintf(w, "%f", cpuUsado)
+}
+
+func getRunningProcess(w http.ResponseWriter, r *http.Request){
+	cmd := exec.Command("sh", "-c", "ps aux | grep -e USER -e PID -e %MEM -e COMMAND -e STAT")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+    fmt.Println("CPU obtenido correctamente")
+    
+    output := string(out[:])
+	//fmt.Fprintf(w, output)
+
+    s := strings.Split(output, "\n")
+	
+	// for {key}, {value} := range {list}
+	for _, process := range s {
+		fmt.Println(process,"\n")
+	}
 }
 
 func main() {
