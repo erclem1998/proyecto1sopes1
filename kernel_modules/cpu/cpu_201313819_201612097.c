@@ -44,7 +44,7 @@ int init_module(void)
 {
     printk(KERN_INFO "[ INIT ==\n");
 
-    procs_info_print();
+    //procs_info_print();
 
     return 0;
 }
