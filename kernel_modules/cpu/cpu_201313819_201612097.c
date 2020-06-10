@@ -1,7 +1,7 @@
 #include <linux/module.h>       // Needed by all modules
 #include <linux/kernel.h>       // KERN_INFO
-#include <linux/sched.h>        // for_each_process, pr_info
-
+//#include <linux/sched.h>        // for_each_process, pr_info
+#include <linux/sched/signal.h>
 
 void procs_info_print(void)
 {
