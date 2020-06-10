@@ -20,7 +20,7 @@ void recorrerHijos(struct seq_file *sf, struct task_struct *ts, int contador)
     list_for_each(list, &ts->children)
     {
         task = list_entry(list, struct task_struct, sibling);
-        pr_info("== %s [%d]\n", ts->comm, ts->pid);
+        pr_info("Nombre: %s PID: %d Estado: %d\n", ts->comm, ts->pid, ts->state);
         recorrerHijos(sf, task, contador + 1);
     }
 }
