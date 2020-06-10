@@ -1,0 +1,1 @@
+cmd_/home/ubuntu/proyecto1sopes1/kernel_modules/cpu/cpu_201313819_201612097.mod := { echo  /home/ubuntu/proyecto1sopes1/kernel_modules/cpu/cpu_201313819_201612097.o; echo; } > /home/ubuntu/proyecto1sopes1/kernel_modules/cpu/cpu_201313819_201612097.mod
