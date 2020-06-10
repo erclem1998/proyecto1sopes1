@@ -16,17 +16,12 @@ void recorrerHijos(struct seq_file *sf, struct task_struct *ts, int contador)
 {
     struct list_head *list;
     struct task_struct *task;
-    struct task_struct *root = current;
-    while (root->pid != 1)
-    {
-        root = root->parent;
-    }
+    
     list_for_each(list, &ts->children)
     {
         task = list_entry(list, struct task_struct, sibling);
-        pr_info("== %s [%d]\n", root->comm, root->pid);
+        pr_info("== %s [%d]\n", ts->comm, ts->pid);
         recorrerHijos(sf, task, contador + 1);
-        recorrerHijos(sf, root, 1);
     }
 }
 
@@ -45,6 +40,13 @@ void recorrerHijos(struct seq_file *sf, struct task_struct *ts, int contador)
 int init_module(void)
 {
     printk(KERN_INFO "[ INIT ==\n");
+    struct task_struct *root = current;
+    while (root->pid != 1)
+    {
+        root = root->parent;
+    }
+    struct seq_file *sf;
+    recorrerHijos(sf, root, 1);
 
     //procs_info_print();
 
