@@ -45,23 +45,6 @@ void procs_info_print(void)
         ++process_counter;
         tam++;
     }
-<<<<<<< HEAD
-    struct procesos lista_procesos[tam];
-    int ctrl=0;
-    for_each_process(task_list)
-    {
-        //pr_info("Nombre: %s \t PID: %d \t Estado: %d \t PID Padre: %d\n", task_list->comm, task_list->pid, task_list->state, task_list->real_parent->pid);
-        lista_procesos[ctrl].pid=task_list->pid;
-        strcpy(lista_procesos[ctrl].nombre, task_list->comm);
-        lista_procesos[ctrl].estado=task_list->state;
-        lista_procesos[ctrl].pidpadre=task_list->real_parent->pid;
-    }
-    for(int i=0;i<tam;i++){
-        pr_info("NombreL: %s \t PIDL: %d \t EstadoL: %d \t PID PadreL: %d\n", lista_procesos[i].nombre, lista_procesos[i].pid, lista_procesos[i].estado, lista_procesos[i].pidpadre);
-    }
-=======
->>>>>>> 0fc754ba5b2709b21c23fd4f374a839ff4129697
-
     printk(KERN_INFO "== Number of process: %zu\n", process_counter);
 }
 
