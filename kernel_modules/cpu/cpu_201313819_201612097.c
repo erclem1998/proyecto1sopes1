@@ -25,6 +25,15 @@
     }
 }*/
 
+
+typedef struct procesos
+{
+    int pid;
+    char *nombre;
+    int estado;
+    int pidpadre;
+};
+
 void procs_info_print(void)
 {
     struct task_struct *task_list;
@@ -34,7 +43,11 @@ void procs_info_print(void)
         pr_info("Nombre: %s \t PID: %d \t Estado: %d \t PID Padre: %d\n", task_list->comm, task_list->pid, task_list->state, task_list->real_parent->pid);
         ++process_counter;
     }
+    struct procesos lista_procesos[process_counter];
+
+
     printk(KERN_INFO "== Number of process: %zu\n", process_counter);
+    printk(KERN_INFO "== Tamanio lista: %d\n", sizeof(lista_procesos));
 }
 
 int init_module(void)
