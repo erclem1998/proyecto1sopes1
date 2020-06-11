@@ -55,7 +55,6 @@ void procs_info_print(void)
         lista_procesos[ctrl].estado=task_list->state;
         lista_procesos[ctrl].pidpadre=task_list->real_parent->pid;
     }
-
     for(int i=0;i<tam;i++){
         pr_info("NombreL: %s \t PIDL: %d \t EstadoL: %d \t PID PadreL: %d\n", lista_procesos[i].nombre, lista_procesos[i].pid, lista_procesos[i].estado, lista_procesos[i].pidpadre);
     }
