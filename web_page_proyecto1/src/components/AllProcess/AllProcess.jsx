@@ -18,7 +18,7 @@ export default class AllProcess extends React.Component {
         .then(res => {
           this.setState({ Procesos: res.data.Output });
         })
-    }, 1000)
+    }, 3000)
   }
 
   componentWillUnmount() {
