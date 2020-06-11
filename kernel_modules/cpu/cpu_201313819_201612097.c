@@ -41,7 +41,7 @@ void procs_info_print(void)
     int tam=0;
     for_each_process(task_list)
     {
-        //pr_info("Nombre: %s \t PID: %d \t Estado: %d \t PID Padre: %d\n", task_list->comm, task_list->pid, task_list->state, task_list->real_parent->pid);
+        pr_info("Nombre: %s \t PID: %d \t Estado: %d \t PID Padre: %d\n", task_list->comm, task_list->pid, task_list->state, task_list->real_parent->pid);
         ++process_counter;
         tam++;
     }
