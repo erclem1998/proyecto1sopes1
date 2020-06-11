@@ -317,6 +317,82 @@ fmt.Println("error")
 	fmt.Fprintf(w, "OK")
 }
 
+type Proceso struct{
+	Id string
+	ParentId string
+	Label string
+	Items []Proceso
+}
+type Arbol struct{
+	Arbol []Proceso
+}
+
+
+func getTreeProcess(w http.ResponseWriter, r *http.Request){
+	cmd := exec.Command("sh", "-c", "ps -el")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+    
+    output := string(out[:])
+	//fmt.Fprintf(w, output)
+
+    s := strings.Split(output, "\n")
+	
+	// for {key}, {value} := range {list}	
+		
+		arreglo := []Proceso{}
+	   for i := 1; i < len(s)-1; i++ {
+			procs := strings.Fields(s[i])
+			emp := []Proceso{}
+			pr := Proceso{procs[3],procs[4],procs[13],emp}
+			
+			
+			if len(arreglo)==0 {
+				arreglo = append(arreglo,pr)
+			}else{				
+				existe := existe_pid(&arreglo,&pr)
+				/*for j := 0; j < len(arreglo); j++{
+					if 	pr.ParentId == arreglo[j].Id {
+						arreglo[j].Items = append(arreglo[j].Items,pr)			
+					}
+				}*/
+				if existe == false {
+					
+					arreglo = append(arreglo,pr);
+				}
+			}
+		}	
+
+		salida := Arbol{arreglo}
+		js, err := json.Marshal(salida)
+		if err != nil {
+		  http.Error(w, err.Error(), http.StatusInternalServerError)
+		  return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)	  
+}
+
+func existe_pid(arreglo *[]Proceso, proceso *Proceso) bool{
+	for j := 0; j < len(*arreglo); j++{
+		if 	(*proceso).ParentId == (*arreglo)[j].Id {
+			(*arreglo)[j].Items = append((*arreglo)[j].Items,*proceso)	
+
+			return true		
+		}else{
+			a:= existe_pid(&(*arreglo)[j].Items, &(*proceso))
+			if a {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	fmt.Println("Server Running on port: 8080")
@@ -331,6 +407,7 @@ func main() {
 	router.HandleFunc("/totalprocess", getTotalProcess).Methods("GET")
 	router.HandleFunc("/allprocess", getAllProcess).Methods("GET")
 	router.HandleFunc("/killprocess", killProcess).Methods("POST")
+	router.HandleFunc("/treeprocess", getTreeProcess).Methods("GET")
 	// cors.Default() setup the middleware with default options being
     // all origins accepted with simple methods (GET, POST). See
     // documentation below for more options.
