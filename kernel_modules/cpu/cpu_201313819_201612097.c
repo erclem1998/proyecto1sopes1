@@ -103,11 +103,29 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
     for_each_process( task ){            /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
         seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld \n",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
- 
             task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
      
-            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
-                task_child->pid, task_child->comm, task_child->state);
+            char estado="O"; //otro estado
+            if(task_child->state==TASK_RUNNING){
+                estado="R"
+            }
+            else if(task_child->state==__TASK_STOPPED){
+                estado="S"
+            }
+            else if(task_child->state==TASK_INTERRUPTIBLE){
+                estado="I"
+            }
+            else if(task_child->state==TASK_UNINTERRUPTIBLE){
+                estado="U"
+            }
+            else if(task_child->exit_state==EXIT_ZOMBIE){
+                estado="Z"
+            }
+            else if(task_child->state==TASK_DEAD){
+                estado="Z"
+            }
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %s \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
+                task_child->pid, task_child->comm, estado);
         }
         seq_printf(archivo,"-----------------------------------------------------\n");    /*for aesthetics*/
     }    
