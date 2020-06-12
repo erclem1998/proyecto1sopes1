@@ -12,10 +12,11 @@ export default class Arbol extends React.Component {
         let arbol = res.data.Arbol;
         arbol.map((proc) => {
           proc = this.NoCapitalLetter(proc)
-          return null;
+          return true;
         });
         //console.log(arbol)
-        this.setState({ Procesos: arbol });
+        let b = arbol
+        this.setState({ Procesos: b });
       })
 
   }
@@ -23,9 +24,10 @@ export default class Arbol extends React.Component {
   NoCapitalLetter(proc) {
     let obj = proc;
     obj.id = parseInt(obj.Id);
+    obj.label = "(" + obj.id + ") " + obj.Label;
     obj.parentId = parseInt(obj.ParentId);
     obj.items = obj.Items;
-    obj.label = "(" + obj.id + ") " + obj.Label;
+
     delete obj.Id;
     delete obj.Label;
     delete obj.ParentId;
@@ -33,9 +35,12 @@ export default class Arbol extends React.Component {
     if (obj.parentId === 0) {
       obj.parentId = null
     }
+    if (obj.id == 899) {
+      console.log(obj)
+    }
     obj.items.map((hijo) => {
       hijo = this.NoCapitalLetter(hijo)
-      return null;
+      return true;
     });
 
 
@@ -43,40 +48,45 @@ export default class Arbol extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://18.204.15.140:8080/treeprocess`)
-      .then(res => {
-        let arbol = res.data.Arbol;
-        arbol.map((proc) => {
-          proc = this.NoCapitalLetter(proc)
-          if (proc.parentId === "0") {
-            proc.parentId = null
-          }
-          return null;
-        });
-        let data = [
-          {
-            "id": 12345678,
-            "parentId": null,
-            "label": "My parent node",
-            "items": [
-              {
-                "id": 87654321,
-                "label": "My file",
-                "parentId": 12345678,
-                "items": []
-              }
-            ]
-          },
-          {
-            "id": 56789012,
-            "parentId": 12345678,
-            "label": "My child node",
-            "items": []
-          }
-        ];
-        console.log(data)
-        this.setState({ Procesos: arbol });
-      })
+    this.interval = setInterval(() => {
+      axios.get(`http://18.204.15.140:8080/treeprocess`)
+        .then(res => {
+          let arbol = res.data.Arbol;
+          arbol.map((proc) => {
+            proc = this.NoCapitalLetter(proc)
+            return null;
+          });
+          let data = [
+            {
+              "id": 1,
+              "parentId": null,
+              "label": "My parent node",
+              "items": [
+                {
+                  "id": 87654321,
+                  "label": "My file",
+                  "parentId": 1,
+                  "items": []
+                }
+              ]
+            },
+            {
+              "id": 56789012,
+              "parentId": 1,
+              "label": "My child node",
+              "items": []
+            }
+            , {
+              "id": 567890121,
+              "parentId": 1,
+              "label": "My child node",
+              "items": []
+            }
+          ];
+          //console.log(data)
+          this.setState({ Procesos: arbol });
+        })
+    }, 1000)
   }
 
   componentWillUnmount() {
