@@ -107,22 +107,22 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
      
             char estado="O"; //otro estado
             if(task_child->state==TASK_RUNNING){
-                estado="R"
+                estado="R";
             }
             else if(task_child->state==__TASK_STOPPED){
-                estado="S"
+                estado="S";
             }
             else if(task_child->state==TASK_INTERRUPTIBLE){
-                estado="I"
+                estado="I";
             }
             else if(task_child->state==TASK_UNINTERRUPTIBLE){
-                estado="U"
+                estado="U";
             }
             else if(task_child->exit_state==EXIT_ZOMBIE){
-                estado="Z"
+                estado="Z";
             }
             else if(task_child->state==TASK_DEAD){
-                estado="Z"
+                estado="D";
             }
             seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %s \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, estado);
