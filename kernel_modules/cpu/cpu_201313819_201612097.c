@@ -124,7 +124,7 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
             else if(task_child->state==TASK_DEAD){
                 estado="D";
             }
-            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %s \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %c \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, estado);
         }
         seq_printf(archivo,"-----------------------------------------------------\n");    /*for aesthetics*/
