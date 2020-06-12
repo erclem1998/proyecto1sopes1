@@ -109,7 +109,7 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
             seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, task_child->state);
         }
-        seq_printf(archivo,"-----------------------------------------------------");    /*for aesthetics*/
+        seq_printf(archivo,"-----------------------------------------------------\n");    /*for aesthetics*/
     }    
      
  
