@@ -101,12 +101,12 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
     //printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
     seq_printf(archivo,"---------OBTENIENDO PROCESOS---------\n");
     for_each_process( task ){            /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
-        seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
+        seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld \n",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
  
             task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
      
-            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, task_child->state);
         }
         seq_printf(archivo,"-----------------------------------------------------");    /*for aesthetics*/
