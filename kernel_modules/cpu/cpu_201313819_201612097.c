@@ -96,6 +96,27 @@ MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("CPU");
 MODULE_AUTHOR("Javier Solares 201313819 --- Erick Lemus 201612097");
 
+int iterate_init(struct seq_file * archivo)                    /*    Init Module    */
+{
+    //printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
+    seq_printf(archivo,"---------OBTENIENDO PROCESOS---------\n");
+    for_each_process( task ){            /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
+        seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
+        list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
+ 
+            task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
+     
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
+                task_child->pid, task_child->comm, task_child->state);
+        }
+        printk("-----------------------------------------------------");    /*for aesthetics*/
+    }    
+     
+ 
+    return 0;
+ 
+}
+
 static int write_file(struct seq_file * archivo, void *v){
     seq_printf(archivo,"\n");
     seq_printf(archivo,"      -------------------------------------\n");
@@ -130,27 +151,8 @@ static int iniciar(void){
 static void salir(void){
     remove_proc_entry("cpu_201313819_201612097",NULL);
     printk(KERN_INFO "\nSistemas Operativos 1\n");
- 
-int iterate_init(struct seq_file * archivo)                    /*    Init Module    */
-{
-    //printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
-    seq_printf(archivo,"---------OBTENIENDO PROCESOS---------\n");
-    for_each_process( task ){            /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
-        seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
-        list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
- 
-            task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
-     
-            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
-                task_child->pid, task_child->comm, task_child->state);
-        }
-        printk("-----------------------------------------------------");    /*for aesthetics*/
-    }    
-     
- 
-    return 0;
- 
-}                /*    End of Init Module    */
+}
+                /*    End of Init Module    */
      
 void cleanup_exit(void)        /*    Exit Module    */
 {
