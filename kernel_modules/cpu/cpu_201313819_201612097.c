@@ -105,15 +105,15 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
             task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
      
-            char estado="O"; //otro estado
+            char estado=79; //otro estado
             if(task_child->state==TASK_RUNNING){
-                estado="R";
+                estado=82;
             }
             else if(task_child->state==__TASK_STOPPED){
                 estado="S";
             }
             else if(task_child->state==TASK_INTERRUPTIBLE){
-                estado="I";
+                estado=73;
             }
             else if(task_child->state==TASK_UNINTERRUPTIBLE){
                 estado="U";
@@ -124,7 +124,7 @@ int iterate_init(struct seq_file * archivo)                    /*    Init Module
             else if(task_child->state==TASK_DEAD){
                 estado="D";
             }
-            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %c \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s ESTADO: %s \n",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, estado);
         }
         seq_printf(archivo,"-----------------------------------------------------\n");    /*for aesthetics*/
