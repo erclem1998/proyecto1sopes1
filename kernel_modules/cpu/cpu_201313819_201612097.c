@@ -77,23 +77,71 @@ MODULE_LICENSE("MIT");
 #include <linux/init.h>
 #include <linux/sched/signal.h>
 #include <linux/sched.h>
+
+#include <linux/list.h>
+#include <linux/types.h>
+#include <linux/slab.h>
+#include <linux/string.h>
+#include <linux/fs.h>
+#include <linux/seq_file.h>
+#include <linux/proc_fs.h>
+#include <linux/mm.h>
  
  
 struct task_struct *task;        /*    Structure defined in sched.h for tasks/processes    */
 struct task_struct *task_child;        /*    Structure needed to iterate through task children    */
 struct list_head *list;            /*    Structure needed to iterate through the list in each task->children struct    */
- 
-int iterate_init(void)                    /*    Init Module    */
+
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("CPU");
+MODULE_AUTHOR("Javier Solares 201313819 --- Erick Lemus 201612097");
+
+static int write_file(struct seq_file * archivo, void *v){
+    seq_printf(archivo,"\n");
+    seq_printf(archivo,"      -------------------------------------\n");
+    seq_printf(archivo,"      |     PROYECTO 1 - MODULO DE CPU    |\n");
+    seq_printf(archivo,"      | LABORATORIO SISTEMAS OPERATIVOS 1 |\n");
+    seq_printf(archivo,"      |           JUNIO 2020              |\n");
+    seq_printf(archivo,"      -------------------------------------\n");
+    seq_printf(archivo,"\n");
+    seq_printf(archivo,"      CESAR JAVIER SOLARES OROZCO - 201313819\n");
+    seq_printf(archivo,"     ERICK ALEXANDER LEMUS MORALES - 201612097\n");
+    seq_printf(archivo,"\n");
+    return iterate_init(archivo);
+}
+
+static int abrir(struct inode  *inode, struct file *file){
+    return single_open(file,write_file, NULL);
+}
+
+static struct file_operations ops =
 {
-    printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
-     
+    .open=abrir,
+    .read=seq_read
+    /* data */
+};
+
+static int iniciar(void){
+    proc_create("cpu_201313819_201612097",0, NULL,&ops);
+    printk(KERN_INFO "\nCarnet1: 201313819, Carnet2: 201612097\n");
+    return 0;
+}
+
+static void salir(void){
+    remove_proc_entry("cpu_201313819_201612097",NULL);
+    printk(KERN_INFO "\nSistemas Operativos 1\n");
+ 
+int iterate_init(struct seq_file * archivo)                    /*    Init Module    */
+{
+    //printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
+    seq_printf(archivo,"---------OBTENIENDO PROCESOS---------\n");
     for_each_process( task ){            /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
-        printk(KERN_INFO "\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
+        seq_printf(archivo,"\nPARENT PID: %d PROCESS: %s STATE: %ld",task->pid, task->comm, task->state);/*    log parent id/executable name/state    */
         list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
  
             task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
      
-            printk(KERN_INFO "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
+            seq_printf(archivo, "\nCHILD OF %s[%d] PID: %d PROCESS: %s STATE: %ld",task->comm, task->pid, /*    log child of and child pid/name/state    */
                 task_child->pid, task_child->comm, task_child->state);
         }
         printk("-----------------------------------------------------");    /*for aesthetics*/
@@ -113,8 +161,4 @@ void cleanup_exit(void)        /*    Exit Module    */
 }                /*    End of Exit Module    */
  
 module_init(iterate_init);    /*    Load Module MACRO    */
-module_exit(cleanup_exit);    /*    Remove Module MACRO    */
- 
-MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("ITERATE THROUGH ALL PROCESSES/CHILD PROCESSES IN THE OS");
-MODULE_AUTHOR("Laerehte");
+module_exit(salir);    /*    Remove Module MACRO    */
