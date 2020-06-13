@@ -86,7 +86,7 @@ export default class Arbol extends React.Component {
           //console.log(data)
           this.setState({ Procesos: arbol });
         })
-    }, 1000)
+    }, 5000)
   }
 
   componentWillUnmount() {

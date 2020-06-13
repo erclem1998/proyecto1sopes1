@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"regexp"
+	"time"
 )
 
 func getCPU(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,7 @@ func getCPU(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-    fmt.Println("CPU obtenido correctamente")
+    go fmt.Println("CPU obtenido correctamente")
 
     output := string(out[:])
 	//fmt.Fprintf(w, output)
@@ -33,12 +34,12 @@ func getCPU(w http.ResponseWriter, r *http.Request) {
 
     	valor, err := strconv.ParseFloat(strings.Trim(s[i], " "), 64)
     	if err != nil {
-    		fmt.Println("valorError ->" + s[i] + "<-" + strconv.Itoa(i))
-    		fmt.Println(err)
+    		go fmt.Println("valorError ->" + s[i] + "<-" + strconv.Itoa(i))
+    		go fmt.Println(err)
 		}
 
 		cpuUsado += valor 
-		//fmt.Println("valor ->" + s[i] + "<-" + strconv.Itoa(i))
+		//go fmt.Println("valor ->" + s[i] + "<-" + strconv.Itoa(i))
 
 	}
 
@@ -54,7 +55,7 @@ func getRam(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-    //fmt.Println("Ram obtenida correctamente")
+    //go fmt.Println("Ram obtenida correctamente")
     output := string(out[:])
     //fmt.Fprintf(w, output)
 
@@ -62,14 +63,14 @@ func getRam(w http.ResponseWriter, r *http.Request) {
     //MemTotal
 	sMemTotal := strings.Fields(s[0])
 	MemTotal := sMemTotal[1]
-	//fmt.Println(s[0])
+	//go fmt.Println(s[0])
 
 	//MemAvailable
-	//fmt.Println(s[2])
+	//go fmt.Println(s[2])
 	//MemFree
 	sMemFree := strings.Fields(s[1])
 	MemFree := sMemFree[1]
-	//fmt.Println(s[1])
+	//go fmt.Println(s[1])
 
 	//PorcertajeRam
 	i1, err := strconv.Atoi(MemTotal)
@@ -94,7 +95,7 @@ func getTotalRam(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-    fmt.Println("Ram obtenida correctamente")
+    go fmt.Println("Ram obtenida correctamente")
     output := string(out[:])
     //fmt.Fprintf(w, output)
 
@@ -102,7 +103,7 @@ func getTotalRam(w http.ResponseWriter, r *http.Request) {
     //MemTotal
 	sMemTotal := strings.Fields(s[0])
 	MemTotal := sMemTotal[1]
-	//fmt.Println(s[0])
+	//go fmt.Println(s[0])
 
 	//PorcertajeRam
 	i1, err := strconv.Atoi(MemTotal)
@@ -119,7 +120,7 @@ func getConsumeRam(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
     
-    //fmt.Println("Ram obtenida correctamente")
+    //go fmt.Println("Ram obtenida correctamente")
     output := string(out[:])
     //fmt.Fprintf(w, output)
 
@@ -128,11 +129,11 @@ func getConsumeRam(w http.ResponseWriter, r *http.Request) {
 	sMemTotal := strings.Fields(s[0])
 	MemTotal := sMemTotal[1]
 	//MemAvailable
-	//fmt.Println(s[2])
+	//go fmt.Println(s[2])
 	//MemFree
 	sMemFree := strings.Fields(s[1])
 	MemFree := sMemFree[1]
-	//fmt.Println(s[1])
+	//go fmt.Println(s[1])
 
 	i1, err := strconv.Atoi(MemTotal)
 	if err != nil {
@@ -168,19 +169,19 @@ type statistics struct{
 func Statistics(w http.ResponseWriter, r *http.Request){
 	files, err := ioutil.ReadDir("/proc")
 	if err != nil {
-		fmt.Println(err)
+		go fmt.Println(err)
 	}
 	contador := statistics{0,0,0,0,0}
 	for _, file := range files {
 		match, _ := regexp.MatchString("[0-9]+", file.Name())
 		if match{
-			//fmt.Println(file.Name())
+			//go fmt.Println(file.Name())
 			pid := file.Name()
 
 			cmd := exec.Command("sh", "-c", "cat /proc/"+pid+"/stat")
 			out, err2 := cmd.CombinedOutput()
 			if err2 != nil {
-				fmt.Println(err2)
+				go fmt.Println(err2)
 			}
     		output := string(out[:])
 			//fmt.Fprintf(w, output)
@@ -202,7 +203,7 @@ func Statistics(w http.ResponseWriter, r *http.Request){
 			}	
 		}
 	}
-	fmt.Println("Estadisticas: ",contador)
+	go fmt.Println("Estadisticas: ",contador)
 		js, err3 := json.Marshal(contador)
 		if err3 != nil {
 		  http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -223,7 +224,7 @@ func getAllProcess(w http.ResponseWriter, r *http.Request){
 		log.Fatal(err5)
 	}
 
-    fmt.Println("Ram obtenida correctamente")
+    go fmt.Println("Ram obtenida correctamente")
     output2 := string(out2[:])
     //fmt.Fprintf(w, output)
 
@@ -231,7 +232,7 @@ func getAllProcess(w http.ResponseWriter, r *http.Request){
     //MemTotal
 	sMemTotal2 := strings.Fields(s2[0])
 	MemTotal2 := sMemTotal2[1]
-	//fmt.Println(s[0])
+	//go fmt.Println(s[0])
 	i2, err8 := strconv.Atoi(MemTotal2)
 	if err8 != nil {
 		log.Fatal(err8)
@@ -240,52 +241,49 @@ func getAllProcess(w http.ResponseWriter, r *http.Request){
 	//procesos
 	files, err := ioutil.ReadDir("/proc")
 	if err != nil {
-		fmt.Println(err)
+		go fmt.Println(err)
 	}
 	arreglo := []proc{}
 	for _, file := range files {
 		match, _ := regexp.MatchString("[0-9]+", file.Name())
 		if match{
-			//fmt.Println(file.Name())
+			//go fmt.Println(file.Name())
 			pid := file.Name()
-			cmd := exec.Command("sh", "-c", "cat /proc/"+pid+"/stat")
-			out, err2 := cmd.CombinedOutput()
-			if err2 != nil {
-				fmt.Println(err2)
-			}
-    		output := string(out[:])
-			//fmt.Fprintf(w, output)
-			
-			s := strings.Split(output, "\n")
-			
-				procs := strings.Fields(s[0])
-				//fmt.Println(procs)
+				//go fmt.Println(procs)
 				piid, err3 := strconv.Atoi(pid)
 				if err3 != nil {
-					fmt.Println(err3)
+					go fmt.Println(err3)
 				}
 				//memoria y uid
 				cmd3 := exec.Command("sh", "-c", "cat /proc/"+pid+"/status")
 				out3, err9 := cmd3.CombinedOutput()
 				if err9 != nil {
-					fmt.Println(err9)
+					go fmt.Println(err9)
 				}
 				output3 := string(out3[:])
+
 		//fmt.Fprintf(w, output)
 				s3 := strings.Split(output3, "\n")
 				uids := strings.Fields(s3[8])
 				uid := uids[1]
 				MemUsed := strings.Fields(s3[17])
+
+				States := strings.Fields(s3[2])
+				state := States[1]
+				Names := strings.Fields(s3[0])
+				name := Names[1]
 				if MemUsed[0] == "VmSize:"{
 					memuses,err7:=  strconv.Atoi(MemUsed[1])					
 				if err7 != nil {
-					fmt.Println(err7)
+					go fmt.Println(err7)
 				}
-				porc_ram:= (memuses) / i2
-				pr := proc{piid, uid, procs[1], procs[2], strconv.Itoa(porc_ram)+"%"}
+				var ram1 float64 
+				ram1 = float64(memuses) / float64(i2)
+				porc_ram:= ram1
+				pr := proc{piid, uid, name, state, strconv.FormatFloat(porc_ram, 'f', 2, 64)+"%"}
 					arreglo = append(arreglo,pr)
 				} else{
-					pr := proc{piid, uid, procs[1], procs[2], "0%"}
+					pr := proc{piid, uid, name, state, "0%"}
 					arreglo = append(arreglo,pr)
 				}
 				
@@ -301,7 +299,7 @@ func getAllProcess(w http.ResponseWriter, r *http.Request){
 	  http.Error(w, err3.Error(), http.StatusInternalServerError)
 	  return
 	}
-	fmt.Println("Tabla de procesos generada")
+	go fmt.Println("Tabla de procesos generada")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
@@ -315,9 +313,9 @@ func killProcess(w http.ResponseWriter, r *http.Request){
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 //		log.Fatal(err)
-fmt.Println("error")
+go fmt.Println("error")
 	}
-    fmt.Println(out)
+    go fmt.Println(out)
 	fmt.Fprintf(w, "OK")
 }
 
@@ -354,19 +352,19 @@ func BubbleSort(numbers []proc) []proc {
 func getTreeProcess(w http.ResponseWriter, r *http.Request){
 	files, err := ioutil.ReadDir("/proc")
 	if err != nil {
-		fmt.Println(err)
+		go fmt.Println(err)
 	}
 	arreglo := []Proceso{}
 	for _, file := range files {
 		match, _ := regexp.MatchString("[0-9]+", file.Name())
 		if match{
-			//fmt.Println(file.Name())
+			//go fmt.Println(file.Name())
 			pid := file.Name()
 
 			cmd := exec.Command("sh", "-c", "cat /proc/"+pid+"/stat")
 			out, err2 := cmd.CombinedOutput()
 			if err2 != nil {
-				fmt.Println(err2)
+			go fmt.Println(err2)
 			}
     		output := string(out[:])
 			//fmt.Fprintf(w, output)
@@ -412,19 +410,22 @@ func existe_pid(arreglo *[]Proceso, proceso *Proceso) bool{
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	fmt.Println("Server Running on port: 8080")
-	router.HandleFunc("/cpu", getCPU).Methods("GET")
-	router.HandleFunc("/ram", getRam).Methods("GET")
-	router.HandleFunc("/total", getTotalRam).Methods("GET")
-	router.HandleFunc("/actualram", getConsumeRam).Methods("GET")
-	router.HandleFunc("/statistics", Statistics).Methods("GET")
-	router.HandleFunc("/allprocess", getAllProcess).Methods("GET")
-	router.HandleFunc("/killprocess", killProcess).Methods("POST")
-	router.HandleFunc("/treeprocess", getTreeProcess).Methods("GET")
+	
+	go fmt.Println("Server Running on port: 8080")
+	go router.HandleFunc("/cpu", getCPU).Methods("GET")
+	go router.HandleFunc("/ram", getRam).Methods("GET")
+	go router.HandleFunc("/total", getTotalRam).Methods("GET")
+	go router.HandleFunc("/actualram", getConsumeRam).Methods("GET")
+	go router.HandleFunc("/statistics", Statistics).Methods("GET")
+	go router.HandleFunc("/allprocess", getAllProcess).Methods("GET")
+	go router.HandleFunc("/killprocess", killProcess).Methods("POST")
+	go router.HandleFunc("/treeprocess", getTreeProcess).Methods("GET")
 	// cors.Default() setup the middleware with default options being
     // all origins accepted with simple methods (GET, POST). See
-    // documentation below for more options.
+	// documentation below for more options.
+	time.Sleep(time.Second)
     handler := cors.Default().Handler(router)
-	http.ListenAndServe(":8080", handler)
-	log.Fatal(http.ListenAndServe(":8080", router))
+	 http.ListenAndServe(":8080", handler)
+	 log.Fatal(http.ListenAndServe(":8080", router))
+	 
 }
