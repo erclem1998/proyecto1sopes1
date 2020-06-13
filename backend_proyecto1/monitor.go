@@ -281,7 +281,7 @@ func getAllProcess(w http.ResponseWriter, r *http.Request){
 				if err7 != nil {
 					fmt.Println(err7)
 				}
-				porc_ram:= (memuses*100) / i2
+				porc_ram:= (memuses) / i2
 				pr := proc{piid, uid, procs[1], procs[2], strconv.Itoa(porc_ram)+"%"}
 					arreglo = append(arreglo,pr)
 				} else{
