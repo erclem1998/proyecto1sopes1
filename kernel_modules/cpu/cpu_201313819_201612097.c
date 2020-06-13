@@ -126,7 +126,7 @@ int iterate_init(struct seq_file *archivo) /*    Init Module    */
         {
             estadoq = 68;
         }
-        seq_printf(archivo, "\t\t| PID PROCESO ACTUAL: %d \t NOMBRE: %s \t ESTADO: %c |\n", task->pid, task->comm, estadoq); /*    log parent id/executable name/state    */
+        seq_printf(archivo, "\n\n\t\t| PID PROCESO ACTUAL: %d \t NOMBRE: %s \t ESTADO: %c |\n", task->pid, task->comm, estadoq); /*    log parent id/executable name/state    */
         int actual=1;
         list_for_each(list, &task->children)
         {                                                               /*    list_for_each MACRO to iterate through task->children    */
@@ -161,7 +161,7 @@ int iterate_init(struct seq_file *archivo) /*    Init Module    */
                        task_child->pid, task_child->comm, estado);
             actual++;
         }
-        seq_printf(archivo, "\n-----------------------------------------------------------------------------------------------------------------------------------------------------\n"); /*for aesthetics*/
+        seq_printf(archivo, "\n\n-----------------------------------------------------------------------------------------------------------------------------------------------------\n"); /*for aesthetics*/
     }
 
     return 0;
