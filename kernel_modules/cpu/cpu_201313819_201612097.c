@@ -161,7 +161,7 @@ int iterate_init(struct seq_file *archivo) /*    Init Module    */
                        task_child->pid, task_child->comm, estado);
             actual++;
         }
-        seq_printf(archivo, "-----------------------------------------------------\n"); /*for aesthetics*/
+        seq_printf(archivo, "-----------------------------------------------------------------------------------------------------------------------------------------------------\n"); /*for aesthetics*/
     }
 
     return 0;
