@@ -107,6 +107,12 @@ export default class RAM extends React.Component {
 
               this.setState({ percentage_ram: res.data });
             })
+          axios.get(`http://18.204.15.140:8080/total`)
+            .then(res => {
+              console.log(res.data)
+
+              this.setState({ TotalRam: res.data });
+            })
         })
     }, 1000)
   }
