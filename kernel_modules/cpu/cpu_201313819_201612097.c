@@ -98,7 +98,7 @@ MODULE_AUTHOR("Javier Solares 201313819 --- Erick Lemus 201612097");
 int iterate_init(struct seq_file *archivo) /*    Init Module    */
 {
     //printk(KERN_INFO "%s","LOADING MODULE\n");    /*    good practice to log when loading/removing modules    */
-    seq_printf(archivo, "---------OBTENIENDO PROCESOS---------\n");
+    seq_printf(archivo, "-----------------------------------------------------------------OBTENIENDO PROCESOS---------------------------------------------------------------------\n");
     for_each_process(task)
     {                     /*    for_each_process() MACRO for iterating through each task in the os located in linux\sched\signal.h    */
         char estadoq = 79; //otro estado
@@ -126,7 +126,7 @@ int iterate_init(struct seq_file *archivo) /*    Init Module    */
         {
             estadoq = 68;
         }
-        seq_printf(archivo, "\n\t\t| PID PROCESO ACTUAL: %d \t NOMBRE: %s \t ESTADO: %c |\n", task->pid, task->comm, estadoq); /*    log parent id/executable name/state    */
+        seq_printf(archivo, "\t\t| PID PROCESO ACTUAL: %d \t NOMBRE: %s \t ESTADO: %c |\n", task->pid, task->comm, estadoq); /*    log parent id/executable name/state    */
         int actual=1;
         list_for_each(list, &task->children)
         {                                                               /*    list_for_each MACRO to iterate through task->children    */
@@ -161,7 +161,7 @@ int iterate_init(struct seq_file *archivo) /*    Init Module    */
                        task_child->pid, task_child->comm, estado);
             actual++;
         }
-        seq_printf(archivo, "-----------------------------------------------------------------------------------------------------------------------------------------------------\n"); /*for aesthetics*/
+        seq_printf(archivo, "\n-----------------------------------------------------------------------------------------------------------------------------------------------------\n"); /*for aesthetics*/
     }
 
     return 0;
