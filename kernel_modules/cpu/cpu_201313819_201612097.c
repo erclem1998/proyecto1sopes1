@@ -179,6 +179,16 @@ static int write_file(struct seq_file *archivo, void *v)
     seq_printf(archivo, "      CESAR JAVIER SOLARES OROZCO - 201313819\n");
     seq_printf(archivo, "     ERICK ALEXANDER LEMUS MORALES - 201612097\n");
     seq_printf(archivo, "\n");
+    seq_printf(archivo, "      -------------------------------------\n");
+    seq_printf(archivo, "      |              ESTADOS              |\n");
+    seq_printf(archivo, "      |  TASK_RUNNING         =        R  |\n");
+    seq_printf(archivo, "      |  TASK_INTERRUPTIBLE   =        I  |\n");
+    seq_printf(archivo, "      |  TASK_UNINTERRUPTIBLE =        U  |\n");
+    seq_printf(archivo, "      |  TASK_STOPPED         =        S  |\n");
+    seq_printf(archivo, "      |  TASK_ZOMBIE          =        Z  |\n");
+    seq_printf(archivo, "      |  OTRO_TASK            =        0  |\n");
+    seq_printf(archivo, "      -------------------------------------\n");
+    seq_printf(archivo, "\n");
     return iterate_init(archivo);
 }
 
