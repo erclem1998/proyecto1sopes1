@@ -132,7 +132,7 @@ static struct file_operations ops =
 static int iniciar(void)
 {
     proc_create("cpu_201313819_201612097", 0, NULL, &ops);
-    printk(KERN_INFO "\nCarnet1: 201313819, Carnet2: 201612097\n");
+    printk(KERN_INFO "\Estudiante1: Cesar Javier Solares Orozco, Estudiante2: Erick Alexander Lemus Morales\n");
     return 0;
 }
 
